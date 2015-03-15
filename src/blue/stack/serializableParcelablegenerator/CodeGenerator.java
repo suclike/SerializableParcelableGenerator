@@ -50,7 +50,7 @@ public class CodeGenerator {
     private String generateConstructor(List<PsiField> fields, PsiClass psiClass) {
         String className = psiClass.getName();
 
-        StringBuilder sb = new StringBuilder("@Override public void createFromParcel(blue.stack.serializableParcelable.IParcel in) {");
+        StringBuilder sb = new StringBuilder("@Override public blue.stack.serializableParcelable.IParcelable createFromParcel(blue.stack.serializableParcelable.IParcel in) {");
 
 
 
@@ -58,7 +58,8 @@ public class CodeGenerator {
         for (PsiField field : fields) {
             sb.append(getSerializerForType(field).readValue(field, "in"));
         }
-
+        sb.append("\n" +
+                "return this;");
         sb.append("}");
         return sb.toString();
     }
