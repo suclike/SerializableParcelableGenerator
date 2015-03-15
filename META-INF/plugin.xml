@@ -1,0 +1,50 @@
+<idea-plugin version="2">
+  <id>blue.stack.SerializableParcelableGenerator</id>
+  <name>SerializableParcelable Generator</name>
+  <version>1.0</version>
+  <vendor email="bunnyblueair@gmail.com" url="https://github.com/bunnyblue/SerializableParcelableGenerator">BunnyBlue</vendor>
+
+  <description><![CDATA[
+      Plugin which generates Android SerializableParcelable boilerplate code for you.<br>
+     lib location at https://github.com/bunnyblue/SerializableParcelable
+
+    ]]></description>
+
+  <change-notes><![CDATA[
+      init Release.<br>
+
+    ]]>
+  </change-notes>
+
+  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+  <idea-version since-build="131"/>
+
+  <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <extensions defaultExtensionNs="com.intellij">
+    <!-- Add your extensions here -->
+  </extensions>
+
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
+
+  <project-components>
+    <!-- Add your project components here -->
+  </project-components>
+
+  <actions>
+    <!-- Add your actions here -->
+      <!-- Add your actions here -->
+      <action id="generateParcelableNew" class="blue.stack.serializableParcelablegenerator.ParcelableAction"
+              text="SerializableParcelable"
+              description="Generates Android SerializableParcelable based on class fields">
+          <add-to-group group-id="GenerateGroup" anchor="last"/>
+      </action>
+  </actions>
+
+</idea-plugin>
