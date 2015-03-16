@@ -42,6 +42,8 @@ public class CodeGenerator {
         sb.append("@Override public ").append(" byte").append("[] getParacelableBytes() {")
                 .append("return new ").append("byte").append("[0];}")
         ;
+
+
         return sb.toString();
     }
 
@@ -65,7 +67,7 @@ public class CodeGenerator {
 
     private String generateWriteToParcel(List<PsiField> fields) {
         StringBuilder sb = new StringBuilder("@Override public void writeToParcel(blue.stack.serializableParcelable.IParcel dest, int constructID) {");
-
+        sb.append("dest.writeInt(constructID);\n");
         for (PsiField field : fields) {
             sb.append(getSerializerForType(field).writeValue(field, "dest", "constructID"));
         }
@@ -76,11 +78,14 @@ public class CodeGenerator {
     }
 
     private String generategetParacelableBytes() {
-        StringBuilder sb = new StringBuilder(" public byte[] getParacelableBytes() {");
+        StringBuilder sb = new StringBuilder("@Override public byte[] getParacelableBytes() {");
 
-
-        sb.append("return new byte[0];");
-
+//        ParcelObject parcelObject = new ParcelObject();
+//        writeToParcel(parcelObject,constructID);
+//        return parcelObject.toByteArray();
+        sb.append("\n blue.stack.serializableParcelable.ParcelObject parcelObject = new blue.stack.serializableParcelable.ParcelObject(); \n");
+        sb.append("writeToParcel(parcelObject,constructID); \n");
+        sb.append("return parcelObject.toByteArray(); \n");
         sb.append("}");
 
         return sb.toString();
@@ -107,7 +112,7 @@ public class CodeGenerator {
         // Default constructor if needed
         String defaultConstructorString = generateDefaultConstructor(mClass);
         PsiMethod defaultConstructor = null;
-        PsiMethod generategetParacelableBytesMethod = elementFactory.createMethodFromText(generateStaticCreator(mClass), mClass);
+        PsiMethod generategetParacelableBytesMethod = elementFactory.createMethodFromText(generategetParacelableBytes(), mClass);
         if (defaultConstructorString != null) {
             defaultConstructor = elementFactory.createMethodFromText(defaultConstructorString, mClass);
         }
