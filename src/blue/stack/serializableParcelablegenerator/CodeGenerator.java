@@ -8,9 +8,8 @@ import com.intellij.psi.codeStyle.JavaCodeStyleManager;
 import java.util.List;
 
 
-
 public class CodeGenerator {
-  //  public static final String CREATOR_NAME = "CREATOR";
+    //  public static final String CREATOR_NAME = "CREATOR";
 
     private final PsiClass mClass;
     private final List<PsiField> mFields;
@@ -40,18 +39,18 @@ public class CodeGenerator {
 //
 //        sb.append(className).append("> CREATOR = new blue.stack.serializableParcelable.IParcelable.Creator<").append(className).append(">(){")
         StringBuilder sb = new StringBuilder("");
-        sb .append("public ").append(" byte").append("[] getParacelableBytes() {")
+        sb.append("@Override public ").append(" byte").append("[] getParacelableBytes() {")
                 .append("return new ").append("byte").append("[0];}")
-             ;
+        ;
         return sb.toString();
     }
-//  @Override
+
+    //  @Override
 //public void createFromParcel(IParcel in)
     private String generateConstructor(List<PsiField> fields, PsiClass psiClass) {
         String className = psiClass.getName();
 
         StringBuilder sb = new StringBuilder("@Override public blue.stack.serializableParcelable.IParcelable createFromParcel(blue.stack.serializableParcelable.IParcel in) {");
-
 
 
         // Creates all of the deserialization methods for the given fields
@@ -80,12 +79,13 @@ public class CodeGenerator {
         StringBuilder sb = new StringBuilder(" public byte[] getParacelableBytes() {");
 
 
-           sb.append("return new byte[0];");
+        sb.append("return new byte[0];");
 
         sb.append("}");
 
         return sb.toString();
     }
+
     private TypeSerializer getSerializerForType(PsiField field) {
         return mTypeSerializerFactory.getSerializer(field.getType());
     }
@@ -100,7 +100,7 @@ public class CodeGenerator {
         removeExistingParcelableImplementation(mClass);
 
         // Describe contents method
-       // PsiMethod describeContentsMethod = elementFactory.createMethodFromText(generateDescribeContents(), mClass);
+        // PsiMethod describeContentsMethod = elementFactory.createMethodFromText(generateDescribeContents(), mClass);
         // Method for writing to the parcel
         PsiMethod writeToParcelMethod = elementFactory.createMethodFromText(generateWriteToParcel(mFields), mClass);
 
@@ -115,12 +115,12 @@ public class CodeGenerator {
         // Constructor
         PsiMethod constructor = elementFactory.createMethodFromText(generateConstructor(mFields, mClass), mClass);
         // CREATOR
-      //  PsiField creatorField = elementFactory.createFieldFromText(generateStaticCreator(mClass), mClass);
+        //  PsiField creatorField = elementFactory.createFieldFromText(generateStaticCreator(mClass), mClass);
 
         JavaCodeStyleManager styleManager = JavaCodeStyleManager.getInstance(mClass.getProject());
 
         // Shorten all class references
-      //  styleManager.shortenClassReferences(mClass.addBefore(describeContentsMethod, mClass.getLastChild()));
+        //  styleManager.shortenClassReferences(mClass.addBefore(describeContentsMethod, mClass.getLastChild()));
         styleManager.shortenClassReferences(mClass.addBefore(writeToParcelMethod, mClass.getLastChild()));
         styleManager.shortenClassReferences(mClass.addBefore(generategetParacelableBytesMethod, mClass.getLastChild()));
         // Only adds if available
@@ -129,13 +129,14 @@ public class CodeGenerator {
         }
 
         styleManager.shortenClassReferences(mClass.addBefore(constructor, mClass.getLastChild()));
-       // styleManager.shortenClassReferences(mClass.addBefore(creatorField, mClass.getLastChild()));
+        // styleManager.shortenClassReferences(mClass.addBefore(creatorField, mClass.getLastChild()));
 
         makeClassImplementParcelable(elementFactory);
     }
 
     /**
      * Strips the
+     *
      * @param psiClass
      */
     private void removeExistingParcelableImplementation(PsiClass psiClass) {
@@ -150,7 +151,7 @@ public class CodeGenerator {
 //        }
         findAndRemoveMethod(psiClass, "createFromParcel", "blue.stack.serializableParcelable.IParcel");
         findAndRemoveMethod(psiClass, "getParacelableBytes");
-     //   findAndRemoveMethod(psiClass, "describeContents");
+        //   findAndRemoveMethod(psiClass, "describeContents");
         findAndRemoveMethod(psiClass, "writeToParcel", "blue.stack.serializableParcelable.IParcel", "int");
     }
 
@@ -162,7 +163,7 @@ public class CodeGenerator {
             sb.append("public ").append(clazz.getName()).append("(){}").append('\n');
             return sb.toString();
         } else {
-        return null;
+            return null;
         }
     }
 
