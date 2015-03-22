@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>blue.stack.SerializableParcelableGenerator</id>
   <name>SerializableParcelable Generator</name>
-  <version>1.1</version>
+  <version>1.2</version>
   <vendor email="bunnyblueair@gmail.com" url="https://github.com/bunnyblue/SerializableParcelableGenerator">BunnyBlue</vendor>
 
   <description><![CDATA[
@@ -11,7 +11,7 @@
     ]]></description>
 
   <change-notes><![CDATA[
-      init Release.<br>
+      fix error at Android Studio 1.2 preview 3.<br>
 
     ]]>
   </change-notes>
@@ -40,7 +40,7 @@
   <actions>
     <!-- Add your actions here -->
       <!-- Add your actions here -->
-      <action id="generateParcelableNew" class="blue.stack.serializableParcelablegenerator.ParcelableAction"
+      <action id="generateSerializableParcelable" class="blue.stack.serializableParcelablegenerator.ParcelableAction"
               text="SerializableParcelable"
               description="Generates Android SerializableParcelable based on class fields">
           <add-to-group group-id="GenerateGroup" anchor="last"/>
